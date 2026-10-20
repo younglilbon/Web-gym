@@ -1,0 +1,10 @@
+import type { Locale } from "@/lib/i18n";
+export type BlogArticle = { slug: string; locale: Locale; title: string; summary: string; body: string[]; coverImage: string | null; publicationStatus: "published"; publishedAt: string };
+export const blogArticles: BlogArticle[] = [
+  { slug: "bat-dau-tap-the-nao", locale: "vi", title: "Bắt đầu tập thế nào khi bạn chưa từng đi gym?", summary: "Một hướng dẫn thực tế để bắt đầu mà không bị choáng ngợp.", body: ["Một chương trình tốt bắt đầu từ lịch tập phù hợp và những mục tiêu có thể đo lường.", "Hãy bắt đầu chậm, ưu tiên kỹ thuật an toàn và dành đủ thời gian cho phục hồi."], coverImage: null, publicationStatus: "published", publishedAt: "2026-09-12" },
+  { slug: "bat-dau-tap-the-nao", locale: "en", title: "How to start training when you have never been to a gym", summary: "A practical guide to starting without feeling overwhelmed.", body: ["A good program starts with a realistic schedule and measurable goals.", "Start slowly, prioritize safe technique, and leave enough room for recovery."], coverImage: null, publicationStatus: "published", publishedAt: "2026-09-12" },
+  { slug: "phuc-hoi-sau-buoi-tap", locale: "vi", title: "Phục hồi sau buổi tập: 5 điều nhỏ tạo khác biệt lớn", summary: "Tập luyện chỉ là một nửa câu chuyện.", body: ["Giấc ngủ, dinh dưỡng và những ngày nghỉ giúp cơ thể thích nghi với việc tập luyện."], coverImage: null, publicationStatus: "published", publishedAt: "2026-08-28" },
+  { slug: "phuc-hoi-sau-buoi-tap", locale: "en", title: "Post-workout recovery: 5 small things that make a big difference", summary: "Training is only half of the story.", body: ["Sleep, nutrition, and rest days help the body adapt to training."], coverImage: null, publicationStatus: "published", publishedAt: "2026-08-28" },
+];
+export const getBlogArticles = (locale: Locale) => blogArticles.filter((article) => article.locale === locale && article.publicationStatus === "published");
+export const getBlogArticle = (locale: Locale, slug: string) => getBlogArticles(locale).find((article) => article.slug === slug);

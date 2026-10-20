@@ -1,0 +1,2 @@
+import { z } from "zod";
+export const progressSchema = z.object({ customer_id: z.string().uuid(), measured_on: z.string().date(), weight_kg: z.coerce.number().min(1).max(500).optional().or(z.literal("")), height_cm: z.coerce.number().min(50).max(260).optional().or(z.literal("")), body_fat_percentage: z.coerce.number().min(0).max(100).optional().or(z.literal("")), measurements: z.record(z.string(), z.coerce.number().positive().max(300)).default({}), notes: z.string().trim().max(4000) });

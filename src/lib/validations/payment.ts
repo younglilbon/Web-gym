@@ -1,0 +1,2 @@
+import { z } from "zod";
+export const paymentSchema = z.object({ customer_id: z.string().uuid(), membership_id: z.string().uuid().optional().or(z.literal("")), amount: z.coerce.number().positive(), paid_at: z.string().datetime(), payment_method: z.enum(["cash", "bank_transfer", "card", "online", "other"]), status: z.enum(["pending", "paid", "failed", "cancelled"]), reference_code: z.string().trim().max(120), notes: z.string().trim().max(2000), idempotency_key: z.string().uuid() });

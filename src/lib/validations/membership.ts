@@ -1,0 +1,3 @@
+import { z } from "zod";
+export const planSchema = z.object({ name: z.string().trim().min(2).max(120), description: z.string().trim().max(2000), description_vi: z.string().trim().max(2000), description_en: z.string().trim().max(2000), session_count: z.coerce.number().int().positive(), duration_days: z.coerce.number().int().positive(), price: z.coerce.number().nonnegative(), currency: z.literal("VND"), status: z.enum(["active", "inactive"]), public_visible: z.boolean() });
+export const assignMembershipSchema = z.object({ customer_id: z.string().uuid(), plan_id: z.string().uuid(), agreed_price: z.coerce.number().nonnegative(), starts_on: z.string().date(), expires_on: z.string().date().optional().or(z.literal("")) });
