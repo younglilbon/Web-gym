@@ -40,18 +40,19 @@ The URL and publishable key are intentionally public Supabase client configurati
 
 1. Create a separate Supabase project for production; never use development seed data there.
 2. In Supabase Authentication, configure the production Site URL as `NEXT_PUBLIC_APP_URL`.
-3. Add redirect URLs for `https://your-production-domain.com/vi/auth/login` and `/en/auth/login` if they are used by the selected Auth flow. Keep localhost URLs only in the development project.
-4. Apply migrations in numeric order: `001_initial_schema.sql` through `009_settings_notifications_reports.sql`.
-5. Prefer the Supabase CLI migration workflow for repeatable deployments. After installing the CLI, link the intended project and review the pending SQL before applying it: `supabase link --project-ref YOUR_PROJECT_REF`, then `supabase db diff`/review, then `supabase db push`. Take a database backup before applying changes. Use the Supabase SQL editor only when the same reviewed migration files are being applied.
-6. Do not edit an already-applied migration. Add a new numbered migration for future changes.
-7. Run `supabase/verification.sql` with an authorized database connection. Confirm expected tables exist, RLS is enabled, indexes exist, and `orphan_payment_count` is zero.
-8. Create the first owner manually in Supabase Auth with a verified email, then insert the matching profile and `owner` role using the SQL in the Authentication section below.
+3. Add redirect URLs for `https://your-production-domain.com/vi/auth/callback` and `/en/auth/callback`. Keep localhost callback URLs only in the development project.
+4. In Supabase Authentication > Providers, enable Google and Facebook and configure each provider's client credentials and callback URL as shown by Supabase. Add the same providers and callback URLs in the corresponding OAuth provider consoles.
+5. Apply migrations in numeric order: `001_initial_schema.sql` through `010_learner_registration.sql`.
+6. Prefer the Supabase CLI migration workflow for repeatable deployments. After installing the CLI, link the intended project and review the pending SQL before applying it: `supabase link --project-ref YOUR_PROJECT_REF`, then `supabase db diff`/review, then `supabase db push`. Take a database backup before applying changes. Use the Supabase SQL editor only when the same reviewed migration files are being applied.
+7. Do not edit an already-applied migration. Add a new numbered migration for future changes.
+8. Run `supabase/verification.sql` with an authorized database connection. Confirm expected tables exist, RLS is enabled, indexes exist, and `orphan_payment_count` is zero.
+9. Create the first owner manually in Supabase Auth with a verified email, then insert the matching profile and `owner` role using the SQL in the Authentication section below.
 
 Migrations are schema changes only. `supabase/seed.sql` is for development and must not be run against production.
 
 ## Authentication and authorization
 
-There is no public elevated-role registration. Create the first owner in Supabase Auth, then run the following with a project owner/admin database connection:
+Public email and OAuth registration creates a `customer` role and profile through migration `010_learner_registration.sql`; it never grants trainer or owner access. Google and Facebook must be enabled in Supabase before those buttons can complete authentication. Create the first owner manually in Supabase Auth, then run the following with a project owner/admin database connection:
 
 ```sql
 insert into public.profiles (id, full_name, locale)

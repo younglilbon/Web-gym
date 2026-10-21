@@ -9,6 +9,9 @@ export default function PublicHeader({ locale, pathname = `/${locale}` }: { loca
     <header className="container site-header">
       <Link href={`/${locale}`} className="brand" aria-label="Tuấn Đơn Giản">Tuấn Đơn Giản</Link>
       <nav className="desktop-nav" aria-label={languageLabel}>
+        <Link href={`/${locale}/auth/login`} className="pill auth-header-link">
+          {locale === "vi" ? "Đăng nhập" : "Sign in"}
+        </Link>
         <Link
           href={switchLocalePath(pathname, other)}
           className="pill"
